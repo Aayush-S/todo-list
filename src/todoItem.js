@@ -9,11 +9,14 @@ const TodoItem = (title, desc, dueDate, priority) => {
     let _description = desc;
     let _dueDate = dueDate;
     let _priority = priority;
+    let _status = false;
 
     let getTitle = () => _title;
     let getDescription = () => _description;
     let getDueDate = () => _dueDate;
     let getPriority = () => _priority;
+    let getStatus = () => _status;
+    
 
     let updateTitle = (newTitle) => {
         _title = newTitle;
@@ -27,9 +30,13 @@ const TodoItem = (title, desc, dueDate, priority) => {
     let updatePriority = (newPriority) => {
         _priority = newPriority;
     }
+    let changeStatus = () => {
+        _status = !(_status);
+    }
 
     return { getTitle, getDescription, getDueDate, getPriority,
-        updateTitle, updateDescription, updateDueDate, updatePriority}
+        updateTitle, updateDescription, updateDueDate, updatePriority,
+        changeStatus }
 }
 
 export default TodoItem;
