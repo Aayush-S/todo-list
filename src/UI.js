@@ -128,6 +128,15 @@ function createProjectsListNode(projectsList) {
         let removeBtn = document.createElement('button');
         removeBtn.textContent = "Remove";
         removeBtn.classList.add('todo-list-remove-btn');
+
+        const projectRemoveBtns = projectsListDiv.querySelectorAll('.todo-list-remove-btn');
+        projectRemoveBtns.forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                projectsList.splice(e.target.parentElement.dataset.key, 1);
+                renderProjectsList(projectsList);
+                updateLocalStorage(projectsList);
+            });
+        });
     
         projectCard.appendChild(removeBtn);
     });
