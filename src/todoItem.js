@@ -3,39 +3,14 @@
 // Will include:
 // title, description, dueDate and priority. Optional: notes and/or checklist.
 
-const TodoItem = (title, desc, dueDate, priority) => {
-    let _title = title;
-    let _description = desc;
-    let _dueDate = dueDate;
-    let _priority = priority;
-    let _status = false;
-
-    let getTitle = () => _title;
-    let getDescription = () => _description;
-    let getDueDate = () => _dueDate;
-    let getPriority = () => _priority;
-    let getStatus = () => _status;
+const TodoItem = (_title, _desc, _dueDate, _priority) => {
+    let title = _title;
+    let description = _desc;
+    let dueDate = _dueDate;
+    let priority = _priority;
+    let status = false;
     
-
-    let updateTitle = (newTitle) => {
-        _title = newTitle;
-    }
-    let updateDescription = (newDesc) => {
-        _description = newDesc;
-    }
-    let updateDueDate = (newDueDate) => {
-        _dueDate = newDueDate;
-    }
-    let updatePriority = (newPriority) => {
-        _priority = newPriority;
-    }
-    let changeStatus = () => {
-        _status = !(_status);
-    }
-
-    return { getTitle, getDescription, getDueDate, getPriority, getStatus,
-        updateTitle, updateDescription, updateDueDate, updatePriority,
-        changeStatus }
+    return { title, description, priority, dueDate, status }
 }
 
 export default TodoItem;
