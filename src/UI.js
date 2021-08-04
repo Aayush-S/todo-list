@@ -1,6 +1,7 @@
 // Renders everything with the DOM
 import TodoItem from "./todoItem";
 import Project from "./project";
+import { updateLocalStorage } from './localStorageLogic';
 
 // PROJECT DISPLAY IN THE CENTER -----------------------------------------------------
 
@@ -100,8 +101,6 @@ function createProjectsListNode(projectsList) {
 
         projectsListDiv.append(projectCard);
         
-        
-        // TODO: Create onclick for each card to render that specific project
         projectCard.addEventListener('click', () => { renderProject(project) });
     });
 
@@ -123,8 +122,11 @@ function createProjectsListFormNode(projectsList) {
 
     submitBtn.addEventListener('click', () => {
         projectsList.push(Project(textbox.value));
-        // render all the todos again.
+        // console.log("projectsList");
+        // console.log(projectsList);
+        updateLocalStorage(projectsList);
         renderProjectsList(projectsList);
+        
     });
     formDiv.append(submitBtn);
 

@@ -7,7 +7,7 @@ import TodoItem from "./todoItem";
 const Project = (title) => {
     const _todos = [];
     const _title = title; 
-
+    
     let getTodos = () => _todos;
     let addTodo = (todoItem) => {
         _todos.push(todoItem);

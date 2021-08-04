@@ -3,7 +3,6 @@
 // Will include:
 // title, description, dueDate and priority. Optional: notes and/or checklist.
 
-
 const TodoItem = (title, desc, dueDate, priority) => {
     let _title = title;
     let _description = desc;
