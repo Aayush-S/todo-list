@@ -28,10 +28,7 @@ function loadLocalStorage() {
   // set myLibrary to fetched value
   if (storageAvailable('localStorage')) {
     let projectsList = JSON.parse(localStorage.getItem('projectsList'));
-    
     projectsList = (projectsList === null) ? [] : projectsList;
-    console.log(projectsList);
-    // projectsList = projectsList.map(book => new Book(book.title, book.author, book.pages, book.read));
     return projectsList;
   }
   else {
@@ -42,9 +39,7 @@ function loadLocalStorage() {
 
 function updateLocalStorage(projectsList) {
   // Set variable in local storage to the current 'myLibrary' array
-  
   localStorage.setItem('projectsList', JSON.stringify(projectsList));
-  console.log(JSON.stringify(projectsList));
 }
 
 export { loadLocalStorage, updateLocalStorage };
