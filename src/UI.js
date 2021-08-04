@@ -68,8 +68,9 @@ function renderForm(project) {
     submitBtn.classList.add('submit-btn');
 
     submitBtn.addEventListener('click', () => {
-        project.addTodo(TodoItem(textbox.textContent, "desc", "dueDate", "priority"));
+        project.addTodo(TodoItem(textbox.value, "desc", "dueDate", "priority"));
         // render all the todos again.
+        renderProject(project);
     });
     formDiv.append(submitBtn);
 
