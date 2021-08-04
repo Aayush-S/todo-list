@@ -2,6 +2,8 @@
 import TodoItem from "./todoItem";
 import Project from "./project";
 
+// PROJECT DISPLAY IN THE CENTER -----------------------------------------------------
+
 function createTodoItemNode(todoItem) {
     const todoDiv = document.createElement('div');
     todoDiv.classList.add('todo-item');
@@ -23,6 +25,29 @@ function createTodoItemNode(todoItem) {
     return todoDiv;
 }
 
+function createTodoFormNode(project) {
+    const formDiv = document.createElement('div');
+    formDiv.classList.add('todo-form');
+
+    const textbox = document.createElement('input');
+    textbox.type = "text";
+    textbox.classList.add('form-textbox');
+    formDiv.append(textbox);
+
+    const submitBtn = document.createElement('button');
+    submitBtn.textContent = "Create";
+    submitBtn.classList.add('submit-btn');
+
+    submitBtn.addEventListener('click', () => {
+        project.addTodo(TodoItem(textbox.value, "desc", "dueDate", "priority"));
+        // render all the todos again.
+        renderProject(project);
+    });
+    formDiv.append(submitBtn);
+
+    return formDiv;
+}
+
 function createProjectNode(project) {
     const projectDiv = document.createElement('div');
     projectDiv.classList.add('project');
@@ -34,7 +59,7 @@ function createProjectNode(project) {
     project.getTodos().forEach(todo => projectDiv.append(createTodoItemNode
     (todo)));
 
-    const form = createFormNode(project);
+    const form = createTodoFormNode(project);
 
     projectDiv.append(form);
 
@@ -54,6 +79,8 @@ function renderProject(project) {
     // add the project node into the container
     projectContainer.append(projectNode);
 }
+
+// PROJECTS LIST ON THE SIDE -------------------------------------------------------------
 
 function createProjectsListNode(projectsList) {
     const projectsListDiv = document.createElement('div');
@@ -81,6 +108,29 @@ function createProjectsListNode(projectsList) {
     return projectsListDiv;
 }
 
+function createProjectsListFormNode(projectsList) {
+    const formDiv = document.createElement('div');
+    formDiv.classList.add('projects-list-form');
+
+    const textbox = document.createElement('input');
+    textbox.type = "text";
+    textbox.classList.add('projects-list-form-textbox');
+    formDiv.append(textbox);
+
+    const submitBtn = document.createElement('button');
+    submitBtn.textContent = "Create";
+    submitBtn.classList.add('submit-btn');
+
+    submitBtn.addEventListener('click', () => {
+        projectsList.push(Project(textbox.value));
+        // render all the todos again.
+        renderProjectsList(projectsList);
+    });
+    formDiv.append(submitBtn);
+
+    return formDiv;
+}
+
 function renderProjectsList(projectsList) {
     const projectsListNode = createProjectsListNode(projectsList);
     const projectsListContainer = document.querySelector('.projects-list-container');
@@ -92,29 +142,7 @@ function renderProjectsList(projectsList) {
 
     // add the project node into the container
     projectsListContainer.append(projectsListNode);
-}
-
-function createFormNode(project) {
-    const formDiv = document.createElement('div');
-    formDiv.classList.add('form');
-
-    const textbox = document.createElement('input');
-    textbox.type = "text";
-    textbox.classList.add('form-textbox');
-    formDiv.append(textbox);
-
-    const submitBtn = document.createElement('button');
-    submitBtn.textContent = "Create";
-    submitBtn.classList.add('submit-btn');
-
-    submitBtn.addEventListener('click', () => {
-        project.addTodo(TodoItem(textbox.value, "desc", "dueDate", "priority"));
-        // render all the todos again.
-        renderProject(project);
-    });
-    formDiv.append(submitBtn);
-
-    return formDiv;
+    projectsListContainer.append(createProjectsListFormNode(projectsList));
 }
 
 function initHomePage() {
