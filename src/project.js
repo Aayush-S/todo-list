@@ -5,12 +5,12 @@
 import TodoItem from "./todoItem";
 
 const Project = (title) => {
-    const todos = [];
+    const _todos = [];
     const _title = title; 
 
-    let getTodos = () => todos;
+    let getTodos = () => _todos;
     let addTodo = (todoItem) => {
-        todos.push(todoItem);
+        _todos.push(todoItem);
     }
 
     let getTitle = () => _title;
