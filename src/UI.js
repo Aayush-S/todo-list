@@ -2,7 +2,7 @@
 import TodoItem from "./todoItem";
 import Project from "./project";
 
-function renderTodoItem(todoItem) {
+function createTodoItemNode(todoItem) {
     const todoDiv = document.createElement('div');
     todoDiv.classList.add('todo-item');
     todoDiv.classList.add(todoItem.getPriority());
@@ -31,9 +31,10 @@ function createProjectNode(project) {
     title.textContent = project.getTitle();
     projectDiv.append(title);
 
-    project.getTodos().forEach(todo => projectDiv.append(renderTodoItem(todo)));
+    project.getTodos().forEach(todo => projectDiv.append(createTodoItemNode
+    (todo)));
 
-    const form = renderForm(project);
+    const form = createFormNode(project);
 
     projectDiv.append(form);
 
@@ -54,7 +55,46 @@ function renderProject(project) {
     projectContainer.append(projectNode);
 }
 
-function renderForm(project) {
+function createProjectsListNode(projectsList) {
+    const projectsListDiv = document.createElement('div');
+    projectsListDiv.classList.add('projects-list');
+
+    const title = document.createElement('h1');
+    title.textContent = "Projects";
+    projectsListDiv.append(title);
+
+    projectsList.forEach(project => {
+        const projectCard = document.createElement('div');
+        projectCard.classList.add('project-card');
+
+        const title = document.createElement('h1');
+        title.textContent = project.getTitle();
+        projectCard.append(title);
+
+        projectsListDiv.append(projectCard);
+        
+        
+        // TODO: Create onclick for each card to render that specific project
+        projectCard.addEventListener('click', () => { renderProject(project) });
+    });
+
+    return projectsListDiv;
+}
+
+function renderProjectsList(projectsList) {
+    const projectsListNode = createProjectsListNode(projectsList);
+    const projectsListContainer = document.querySelector('.projects-list-container');
+
+    // empty the container
+    while (projectsListContainer.firstChild) {
+        projectsListContainer.removeChild(projectsListContainer.firstChild)
+    }
+
+    // add the project node into the container
+    projectsListContainer.append(projectsListNode);
+}
+
+function createFormNode(project) {
     const formDiv = document.createElement('div');
     formDiv.classList.add('form');
 
@@ -92,7 +132,6 @@ function initHomePage() {
     const projectsListContainer = document.createElement('div');
     projectsListContainer.classList.add('projects-list-container');
     content.append(projectsListContainer);
-
 }
 
-export { initHomePage, renderProject };
+export { initHomePage, renderProject, renderProjectsList };
