@@ -34,7 +34,7 @@ const TodoItem = (title, desc, dueDate, priority) => {
         _status = !(_status);
     }
 
-    return { getTitle, getDescription, getDueDate, getPriority,
+    return { getTitle, getDescription, getDueDate, getPriority, getStatus,
         updateTitle, updateDescription, updateDueDate, updatePriority,
         changeStatus }
 }
