@@ -189,13 +189,15 @@ function initHomePage() {
     header.classList.add('header');
     content.append(header);
 
+    const projectsListContainer = document.createElement('div');
+    projectsListContainer.classList.add('projects-list-container');
+    content.append(projectsListContainer);
+
     const projectContainer = document.createElement('div');
     projectContainer.classList.add('project-container');
     content.append(projectContainer);
 
-    const projectsListContainer = document.createElement('div');
-    projectsListContainer.classList.add('projects-list-container');
-    content.append(projectsListContainer);
+    
 }
 
 export { initHomePage, renderProject, renderProjectsList };

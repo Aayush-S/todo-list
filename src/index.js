@@ -22,12 +22,3 @@ if (projectsList.length === 0) {
 initHomePage();
 renderProjectsList(projectsList);
 renderProject(projectsList[0], projectsList);
-
-const projectRemoveBtns = document.querySelectorAll('.todo-list-remove-btn');
-projectRemoveBtns.forEach(btn => {
-    btn.addEventListener('click', function (e) {
-        projectsList.splice(e.target.parentElement.dataset.key, 1);
-        renderProjectsList(projectsList);
-        updateLocalStorage(projectsList);
-    });
-});
