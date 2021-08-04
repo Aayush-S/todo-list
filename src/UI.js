@@ -5,10 +5,12 @@ import { updateLocalStorage } from './localStorageLogic';
 
 // PROJECT DISPLAY IN THE CENTER -----------------------------------------------------
 
-function createTodoItemNode(todoItem) {
+function createTodoItemNode(todoItem, index) {
     const todoDiv = document.createElement('div');
     todoDiv.classList.add('todo-item');
     todoDiv.classList.add(todoItem.priority);
+
+    todoDiv.dataset.key = index;
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -22,6 +24,15 @@ function createTodoItemNode(todoItem) {
     const dueDate = document.createElement('p');
     dueDate.textContent = todoItem.dueDate;
     todoDiv.append(dueDate);
+
+    let removeBtn = document.createElement('button');
+    removeBtn.textContent = "Remove";
+    removeBtn.classList.add('todo-remove-btn');
+
+    
+    
+    
+    todoDiv.appendChild(removeBtn);
 
     return todoDiv;
 }
@@ -58,7 +69,17 @@ function createProjectNode(project, projectsList) {
     title.textContent = project.title;
     projectDiv.append(title);
 
-    project.todos.forEach(todo => projectDiv.append(createTodoItemNode(todo)));
+    project.todos.forEach((todo, index) => projectDiv.append(createTodoItemNode(todo, index)));
+
+    const removeBtns = projectDiv.querySelectorAll('.todo-remove-btn');
+    
+    removeBtns.forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            project.todos.splice(e.target.parentElement.dataset.key, 1);
+            renderProject(project, projectsList);
+            updateLocalStorage(projectsList);
+        });
+    });
 
     const form = createTodoFormNode(project, projectsList);
     projectDiv.append(form);
@@ -90,9 +111,11 @@ function createProjectsListNode(projectsList) {
     title.textContent = "Projects";
     projectsListDiv.append(title);
 
-    projectsList.forEach(project => {
+    projectsList.forEach((project, index) => {
         const projectCard = document.createElement('div');
         projectCard.classList.add('project-card');
+
+        projectCard.dataset.key = index;
 
         const title = document.createElement('h1');
         title.textContent = project.title;
@@ -101,6 +124,12 @@ function createProjectsListNode(projectsList) {
         projectsListDiv.append(projectCard);
         
         projectCard.addEventListener('click', () => { renderProject(project, projectsList) });
+
+        let removeBtn = document.createElement('button');
+        removeBtn.textContent = "Remove";
+        removeBtn.classList.add('todo-list-remove-btn');
+    
+        projectCard.appendChild(removeBtn);
     });
 
     return projectsListDiv;
