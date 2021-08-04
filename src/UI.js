@@ -8,7 +8,7 @@ import { updateLocalStorage } from './localStorageLogic';
 function createTodoItemNode(todoItem) {
     const todoDiv = document.createElement('div');
     todoDiv.classList.add('todo-item');
-    todoDiv.classList.add(todoItem.getPriority());
+    todoDiv.classList.add(todoItem.priority);
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -16,17 +16,17 @@ function createTodoItemNode(todoItem) {
     todoDiv.append(checkbox); 
     
     const title = document.createElement('h1');
-    title.textContent = todoItem.getTitle();
+    title.textContent = todoItem.title;
     todoDiv.append(title);
     
     const dueDate = document.createElement('p');
-    dueDate.textContent = todoItem.getDueDate();
+    dueDate.textContent = todoItem.dueDate;
     todoDiv.append(dueDate);
 
     return todoDiv;
 }
 
-function createTodoFormNode(project) {
+function createTodoFormNode(project, projectsList) {
     const formDiv = document.createElement('div');
     formDiv.classList.add('todo-form');
 
@@ -40,36 +40,35 @@ function createTodoFormNode(project) {
     submitBtn.classList.add('submit-btn');
 
     submitBtn.addEventListener('click', () => {
-        project.addTodo(TodoItem(textbox.value, "desc", "dueDate", "priority"));
+        project.todos.push(TodoItem(textbox.value, "desc", "dueDate", "priority"));
         // render all the todos again.
-        renderProject(project);
+        updateLocalStorage(projectsList);
+        renderProject(project, projectsList);
     });
     formDiv.append(submitBtn);
 
     return formDiv;
 }
 
-function createProjectNode(project) {
+function createProjectNode(project, projectsList) {
     const projectDiv = document.createElement('div');
     projectDiv.classList.add('project');
 
     const title = document.createElement('h1');
-    title.textContent = project.getTitle();
+    title.textContent = project.title;
     projectDiv.append(title);
 
-    project.getTodos().forEach(todo => projectDiv.append(createTodoItemNode
-    (todo)));
+    project.todos.forEach(todo => projectDiv.append(createTodoItemNode(todo)));
 
-    const form = createTodoFormNode(project);
-
+    const form = createTodoFormNode(project, projectsList);
     projectDiv.append(form);
 
     return projectDiv;
 }
 
-function renderProject(project) {
+function renderProject(project, projectsList) {
 
-    const projectNode = createProjectNode(project);
+    const projectNode = createProjectNode(project, projectsList);
     const projectContainer = document.querySelector('.project-container');
 
     // empty the container
@@ -96,12 +95,12 @@ function createProjectsListNode(projectsList) {
         projectCard.classList.add('project-card');
 
         const title = document.createElement('h1');
-        title.textContent = project.getTitle();
+        title.textContent = project.title;
         projectCard.append(title);
 
         projectsListDiv.append(projectCard);
         
-        projectCard.addEventListener('click', () => { renderProject(project) });
+        projectCard.addEventListener('click', () => { renderProject(project, projectsList) });
     });
 
     return projectsListDiv;
@@ -122,11 +121,8 @@ function createProjectsListFormNode(projectsList) {
 
     submitBtn.addEventListener('click', () => {
         projectsList.push(Project(textbox.value));
-        // console.log("projectsList");
-        // console.log(projectsList);
         updateLocalStorage(projectsList);
         renderProjectsList(projectsList);
-        
     });
     formDiv.append(submitBtn);
 
