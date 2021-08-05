@@ -17,7 +17,7 @@ function createTodoItemNode(todoItem, index) {
     checkbox.classList = "status-check";
     todoDiv.append(checkbox); 
     
-    const title = document.createElement('h1');
+    const title = document.createElement('p');
     title.textContent = todoItem.title;
     todoDiv.append(title);
     
@@ -109,6 +109,7 @@ function createProjectsListNode(projectsList) {
 
     const title = document.createElement('h1');
     title.textContent = "Projects";
+    title.classList.add('projects-list-header');
     projectsListDiv.append(title);
 
     projectsList.forEach((project, index) => {
@@ -117,7 +118,7 @@ function createProjectsListNode(projectsList) {
 
         projectCard.dataset.key = index;
 
-        const title = document.createElement('h1');
+        const title = document.createElement('p');
         title.textContent = project.title;
         projectCard.append(title);
 
