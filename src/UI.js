@@ -5,7 +5,7 @@ import { updateLocalStorage } from './localStorageLogic';
 
 // PROJECT DISPLAY IN THE CENTER -----------------------------------------------------
 
-function createTodoItemNode(todoItem, index) {
+function createTodoItemNode(todoItem, index, projectsList) {
     const todoDiv = document.createElement('div');
     todoDiv.classList.add('todo-item');
     todoDiv.classList.add(todoItem.priority);
@@ -15,18 +15,33 @@ function createTodoItemNode(todoItem, index) {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.classList = "status-check";
+    if (todoItem.status) {
+        checkbox.checked = true;
+    }
     todoDiv.append(checkbox); 
+
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            todoItem.status = true;
+        }
+        else {
+            todoItem.status = false;
+        }
+        updateLocalStorage(projectsList);
+    });
     
     const title = document.createElement('p');
     title.textContent = todoItem.title;
     todoDiv.append(title);
     
+    /*
     const dueDate = document.createElement('p');
     dueDate.textContent = todoItem.dueDate;
     todoDiv.append(dueDate);
+    */
 
     let removeBtn = document.createElement('button');
-    removeBtn.textContent = "Remove";
+    removeBtn.textContent = "--";
     removeBtn.classList.add('todo-remove-btn');
 
     
@@ -44,14 +59,15 @@ function createTodoFormNode(project, projectsList) {
     const textbox = document.createElement('input');
     textbox.type = "text";
     textbox.classList.add('form-textbox');
+    textbox.placeholder = "Todo Item";
     formDiv.append(textbox);
 
     const submitBtn = document.createElement('button');
-    submitBtn.textContent = "Create";
+    submitBtn.textContent = "+";
     submitBtn.classList.add('submit-btn');
 
     submitBtn.addEventListener('click', () => {
-        project.todos.push(TodoItem(textbox.value, "desc", "dueDate", "priority"));
+        project.todos.push(TodoItem(textbox.value, "desc", "dueDate", "priority", false));
         // render all the todos again.
         updateLocalStorage(projectsList);
         renderProject(project, projectsList);
@@ -69,7 +85,7 @@ function createProjectNode(project, projectsList) {
     title.textContent = project.title;
     projectDiv.append(title);
 
-    project.todos.forEach((todo, index) => projectDiv.append(createTodoItemNode(todo, index)));
+    project.todos.forEach((todo, index) => projectDiv.append(createTodoItemNode(todo, index, projectsList)));
 
     const removeBtns = projectDiv.querySelectorAll('.todo-remove-btn');
     
@@ -127,7 +143,7 @@ function createProjectsListNode(projectsList) {
         projectCard.addEventListener('click', () => { renderProject(project, projectsList) });
 
         let removeBtn = document.createElement('button');
-        removeBtn.textContent = "Remove";
+        removeBtn.textContent = "--";
         removeBtn.classList.add('todo-list-remove-btn');
 
         const projectRemoveBtns = projectsListDiv.querySelectorAll('.todo-list-remove-btn');
@@ -152,10 +168,11 @@ function createProjectsListFormNode(projectsList) {
     const textbox = document.createElement('input');
     textbox.type = "text";
     textbox.classList.add('projects-list-form-textbox');
+    textbox.placeholder = "Project name";
     formDiv.append(textbox);
 
     const submitBtn = document.createElement('button');
-    submitBtn.textContent = "Create";
+    submitBtn.textContent = "+";
     submitBtn.classList.add('submit-btn');
 
     submitBtn.addEventListener('click', () => {
